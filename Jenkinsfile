@@ -13,13 +13,28 @@ pipeline {
         }
         stage('Check Files') {
             steps {
-                sh 'ls -l'  // Check if deployment.yaml exists
+                sh 'ls -l'
+            }
+        }
+        stage('Configure Kubeconfig') {
+            steps {
+                sh 'aws eks update-kubeconfig --region <your-region> --name <your-cluster-name>'
+            }
+        }
+        stage('Check Installations') {
+            steps {
+                sh 'aws --version'
+                sh 'kubectl version --client'
             }
         }
         stage('Deploy to EKS') {
             steps {
-                // Ensure kubeconfig is set correctly before this step
-                sh 'kubectl apply -f deployment.yaml --validate=false'
+                script {
+                    def result = sh(script: 'kubectl apply -f deployment.yaml --validate=false', returnStatus: true)
+                    if (result != 0) {
+                        error("Deployment failed with exit code: ${result}")
+                    }
+                }
             }
         }
     }
