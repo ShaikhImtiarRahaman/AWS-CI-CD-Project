@@ -44,7 +44,7 @@ pipeline {
             steps {
                 // Check the installed versions of AWS CLI and kubectl
                 sh 'aws --version'
-                sh 'kubectl version --client --short' // Shorter output for clarity
+                sh 'kubectl version --client' // Removed --short
             }
         }
         
