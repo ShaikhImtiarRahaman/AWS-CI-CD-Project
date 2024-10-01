@@ -6,6 +6,13 @@ pipeline {
                 git 'https://github.com/ShaikhImtiarRahaman/AWS-CI-CD-Project.git'
             }
         }
+        
+        stage('Verify Permissions') {
+            steps {
+                sh 'aws eks list-clusters'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t myapp:latest .'
