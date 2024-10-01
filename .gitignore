@@ -1,0 +1,13 @@
+# Ignore Terraform state and cache files
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.lock.hcl
+
+# Ignore Jenkins workspace and logs if present
+workspace/
+logs/
+
+# Ignore any sensitive files if used (add manually)
+*.pem
+*.key
